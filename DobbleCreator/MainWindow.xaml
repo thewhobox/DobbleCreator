@@ -1,0 +1,46 @@
+﻿<Window x:Class="DobbleCreator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DobbleCreator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="450">
+    <Window.Resources>
+        <DataTemplate x:Key="CardTemplate">
+            <TextBlock Text="{Binding NumberText}" Margin="10 2" />
+        </DataTemplate>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBox x:Name="InCount" Width="100" />
+            <Button Content="Erstellen" Click="RunCreate" />
+
+            <TextBlock VerticalAlignment="Center" Margin="20 0 0 0">
+                <Run Text="Maximale Karten:" />
+                <Run Text="{Binding MaxCount}" />
+            </TextBlock>
+            <TextBlock VerticalAlignment="Center" Margin="20 0 0 0">
+                <Run Text="Anzahl Symbole:" />
+                <Run Text="{Binding MaxSymbols}" />
+            </TextBlock>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Cards}" ItemTemplate="{StaticResource CardTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True" Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+        
+    </Grid>
+</Window>
