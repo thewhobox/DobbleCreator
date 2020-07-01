@@ -27,13 +27,11 @@
             <Button Content="Erstellen" Click="RunCreate" />
             <Button x:Name="BtnTest" Content="Testen" Click="RunTest" IsEnabled="False" />
 
+            <ToggleButton x:Name="BtnShow" Content="Anzeigen" Click="RunShow" IsEnabled="False" />
+
             <TextBlock VerticalAlignment="Center" Margin="20 0 0 0">
                 <Run Text="Maximale Karten:" />
                 <Run Text="{Binding MaxCount}" />
-            </TextBlock>
-            <TextBlock VerticalAlignment="Center" Margin="20 0 0 0">
-                <Run Text="Anzahl Symbole:" />
-                <Run Text="{Binding MaxSymbols}" />
             </TextBlock>
         </StackPanel>
 
