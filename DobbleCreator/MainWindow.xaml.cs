@@ -84,6 +84,7 @@ namespace DobbleCreator
         {
             Cards.Clear();
             BtnTest.IsEnabled = false;
+            BtnShow.IsEnabled = false;
             Progress = 0;
 
             bool isInt = int.TryParse(InCount.Text, out int count);
@@ -194,7 +195,6 @@ namespace DobbleCreator
                 maxTests += i-1;
 
             VisProgress.Maximum = maxTests;
-            Debug.WriteLine(maxTests);
 
             Task.Run(() =>
             {
@@ -204,7 +204,6 @@ namespace DobbleCreator
 
                     for(int x = i+1; x < Cards.Count; x++)
                     {
-                        Debug.WriteLine($"Testen: {i} {x}");
                         if(CompareNumbers(cardA, Cards[x]))
                         {
                             MessageBox.Show($"Test wurde nicht bestanden!\r\nKarte {i} mit Karte {x} haben mehr als eine übereinstimmung!", "Fehler 0x06");
@@ -214,8 +213,11 @@ namespace DobbleCreator
                     }
                 }
 
-                Debug.WriteLine(Progress);
                 MessageBox.Show("Test wurde bestanden!", "Erfolgreich");
+                Dispatcher.Invoke(() =>
+                {
+                    BtnShow.IsEnabled = true;
+                });
             });
         }
 
@@ -283,6 +285,18 @@ namespace DobbleCreator
                     start++;
                 }
             }
+        }
+
+        private void RunShow(object sender, RoutedEventArgs e)
+        {
+            ViewCards diag = new ViewCards();
+            diag.SetCards(Cards.ToList());
+            diag.ShowDialog();
+        }
+
+        private void RunShow2(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
