@@ -8,12 +8,16 @@
         Title="MainWindow" Height="600" Width="450">
     <Window.Resources>
         <DataTemplate x:Key="CardTemplate">
-            <TextBlock Text="{Binding NumberText}" Margin="10 2" />
+            <StackPanel Margin="10 2" Orientation="Horizontal">
+                <TextBlock Margin="10 2" Text="{Binding Index}" />
+                <TextBlock Margin="10 2" Text="{Binding NumberText}" />
+            </StackPanel>
         </DataTemplate>
     </Window.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -21,6 +25,7 @@
         <StackPanel Orientation="Horizontal" Margin="5">
             <TextBox x:Name="InCount" Width="100" />
             <Button Content="Erstellen" Click="RunCreate" />
+            <Button x:Name="BtnTest" Content="Testen" Click="RunTest" IsEnabled="False" />
 
             <TextBlock VerticalAlignment="Center" Margin="20 0 0 0">
                 <Run Text="Maximale Karten:" />
@@ -32,7 +37,9 @@
             </TextBlock>
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1">
+        <ProgressBar x:Name="VisProgress" Grid.Row="1" Height="15" Value="{Binding Progress}" />
+
+        <ScrollViewer Grid.Row="2">
             <ItemsControl ItemsSource="{Binding Cards}" ItemTemplate="{StaticResource CardTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

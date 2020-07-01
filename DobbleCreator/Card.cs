@@ -8,6 +8,7 @@ namespace DobbleCreator
 {
     public class Card : INotifyPropertyChanged
     {
+        public int Index { get; set; }
         public ObservableCollection<int> Numbers { get; set; } = new ObservableCollection<int>();
         public event PropertyChangedEventHandler PropertyChanged;
 
