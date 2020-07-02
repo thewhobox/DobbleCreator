@@ -7,9 +7,45 @@
         mc:Ignorable="d"
         Title="ViewTwoCards" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+
+        <Button Grid.ColumnSpan="2" Content="Neu Mischen" Click="RunShuffle" />
+
+        <Border x:Name="Card1" Grid.Row="1" Margin="5" BorderBrush="LightGray" BorderThickness="1" Padding="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ListBox ItemsSource="{Binding Images}" IsEnabled="False">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid IsItemsHost="True" Columns="{Binding MaxColumns}" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding .}" Width="50" Height="50" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
+        <Border x:Name="Card2" Grid.Row="1" Grid.Column="1" Margin="5" BorderBrush="LightGray" BorderThickness="1" Padding="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ListBox ItemsSource="{Binding Images}" IsEnabled="False">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid IsItemsHost="True" Columns="{Binding MaxColumns}" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding .}" Width="50" Height="50" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
     </Grid>
 </Window>

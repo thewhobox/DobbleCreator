@@ -49,6 +49,7 @@ namespace DobbleCreator
             foreach(Card card in cards)
             {
                 CardView newCard = new CardView();
+                card.Numbers.Shuffle();
                 foreach (int numb in card.Numbers)
                     newCard.Images.Add(images[numb]);
                 Cards.Add(newCard);

@@ -217,6 +217,7 @@ namespace DobbleCreator
                 Dispatcher.Invoke(() =>
                 {
                     BtnShow.IsEnabled = true;
+                    BtnShow2.IsEnabled = true;
                 });
             });
         }
@@ -296,7 +297,9 @@ namespace DobbleCreator
 
         private void RunShow2(object sender, RoutedEventArgs e)
         {
-
+            ViewTwoCards diag = new ViewTwoCards();
+            diag.SetCards(Cards.ToList());
+            diag.ShowDialog();
         }
     }
 }
