@@ -49,6 +49,20 @@ namespace DobbleCreator
             set { _maxCount = value; MaxNumber = value; Changed("MaxCount"); }
         }
 
+        private int _realCount = 0;
+        public int RealCount
+        {
+            get { return _realCount; }
+            set { _realCount = value; Changed("RealCount"); }
+        }
+
+        private int _maxSymCount = 0;
+        public int MaxSymCount
+        {
+            get { return _maxSymCount; }
+            set { _maxSymCount = value; Changed("MaxSymCount"); }
+        }
+
         private int _maxCols = 0;
         public int MaxCols
         {
@@ -83,9 +97,12 @@ namespace DobbleCreator
         private void RunCreate(object sender, RoutedEventArgs e)
         {
             Cards.Clear();
-            BtnTest.IsEnabled = false;
             BtnShow.IsEnabled = false;
+            BtnShow2.IsEnabled = false;
             Progress = 0;
+
+            MaxSymCount = System.IO.Directory.GetFiles("Images/").Count();
+
 
             bool isInt = int.TryParse(InCount.Text, out int count);
             if (!isInt)
@@ -97,9 +114,8 @@ namespace DobbleCreator
             Debug.WriteLine("Base: " + IsBasePrime(count - 1).ToString());
             if (!IsPrime(count-1) && !IsBasePrime(count-1))
             {
-                MessageBoxResult result = MessageBox.Show("Für die Zahl kann kein endlicher Körper erstellt werden. ", "Fehler 0x0" + (!IsPrime(count-1) ? "2":"3"), MessageBoxButton.OKCancel);
-                if(result == MessageBoxResult.Cancel)
-                    return;
+                MessageBox.Show("Für die Zahl kann kein endlicher Körper erstellt werden. ", "Fehler 0x0" + (!IsPrime(count-1) ? "2":"3"));
+                return;
             }
             MaxCount = (count * (count-1)) + 1;
             MaxCols = count - 1;
@@ -117,13 +133,6 @@ namespace DobbleCreator
                 try
                 {
                     int c = 0;
-
-                    //Card firstcard = new Card();
-                    //for (int i = 1; i <= count; i++)
-                    //    firstcard.Add(i);
-                    //tempCards.Add(firstcard);
-                    //Progress++;
-
                     int next = count + 1;
                     for (int i = 0; i <= count - 1; i++)
                     {
@@ -141,7 +150,7 @@ namespace DobbleCreator
 
                     for (int set = 1; set <= count - 1; set++) // Sets durchgehen
                     {
-                        for (int sIndex = 1; sIndex <= count - 1; sIndex++) //Für das Setz x Karten erstellen
+                        for (int sIndex = 1; sIndex <= count - 1; sIndex++) //Für das Set x Karten erstellen
                         {
                             Card card = new Card() { Index = c };
                             card.Add(set + 1);
@@ -154,28 +163,30 @@ namespace DobbleCreator
                             tempCards.Add(card);
                             Progress++;
                             c++;
-                            Debug.WriteLine("---");
                         }
                     }
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
                     MessageBox.Show("Für diese Karten sind nicht genügend Symbole vorhanden.\r\n" + $"Vorhanden: {availibleChars.Count} - Benötigt: {MaxSymbols}", "Fehler 0x05");
+                    return;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Es trat ein unbekannter Fehler auf:\r\n" + ex.Message, "Fehler 0x00");
+                    return;
                 }
 
                 Dispatcher.Invoke(() =>
                 {
                     DisplayResult(tempCards);
+
+                    RunTest();
                 });
             });
-            
 
 
-            BtnTest.IsEnabled = true;
+
         }
 
         private void DisplayResult(List<Card> tempCards)
@@ -186,7 +197,7 @@ namespace DobbleCreator
 
 
 
-        private void RunTest(object sender, RoutedEventArgs e)
+        private void RunTest()
         {
             Progress = 0;
 
@@ -202,20 +213,37 @@ namespace DobbleCreator
                 {
                     Card cardA = Cards[i];
 
-                    for(int x = i+1; x < Cards.Count; x++)
+                    for (int x = i+1; x < Cards.Count; x++)
                     {
                         if(CompareNumbers(cardA, Cards[x]))
                         {
-                            MessageBox.Show($"Test wurde nicht bestanden!\r\nKarte {i} mit Karte {x} haben mehr als eine übereinstimmung!", "Fehler 0x06");
-                            return;
+                            cardA.CanViewed = false;
+                            Cards[x].CanViewed = false;
                         }
                         Progress++;
                     }
                 }
 
-                MessageBox.Show("Test wurde bestanden!", "Erfolgreich");
+
+
+                List<int> numbers = new List<int>();
+
+                foreach (Card card in Cards.Where(c => c.CanViewed))
+                {
+                    bool flag = false;
+                    foreach (int numb in card.Numbers)
+                        if (numb > MaxSymCount)
+                            flag = true;
+
+                    if (flag)
+                    {
+                        card.CanViewed = false;
+                    }
+                }
+
                 Dispatcher.Invoke(() =>
                 {
+                    RealCount = Cards.Where(c => c.CanViewed).Count();
                     BtnShow.IsEnabled = true;
                     BtnShow2.IsEnabled = true;
                 });
@@ -291,14 +319,14 @@ namespace DobbleCreator
         private void RunShow(object sender, RoutedEventArgs e)
         {
             ViewCards diag = new ViewCards();
-            diag.SetCards(Cards.ToList());
+            diag.SetCards(Cards.Where(c => c.CanViewed).ToList(), MaxSymCount);
             diag.ShowDialog();
         }
 
         private void RunShow2(object sender, RoutedEventArgs e)
         {
             ViewTwoCards diag = new ViewTwoCards();
-            diag.SetCards(Cards.ToList());
+            diag.SetCards(Cards.Where(c => c.CanViewed).ToList());
             diag.ShowDialog();
         }
     }

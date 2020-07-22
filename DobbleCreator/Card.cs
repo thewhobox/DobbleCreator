@@ -11,6 +11,7 @@ namespace DobbleCreator
         public int Index { get; set; }
         public ObservableCollection<int> Numbers { get; set; } = new ObservableCollection<int>();
         public event PropertyChangedEventHandler PropertyChanged;
+        public bool CanViewed = true;
 
         public string NumberText
         {

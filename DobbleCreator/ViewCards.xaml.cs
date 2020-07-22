@@ -27,10 +27,11 @@ namespace DobbleCreator
             this.DataContext = this;
         }
 
-        public void SetCards(List<Card> cards)
+        public void SetCards(List<Card> cards, int maxSymbols)
         {
             Dictionary<int, BitmapImage> images = new Dictionary<int, BitmapImage>();
             string currentPath = AppDomain.CurrentDomain.BaseDirectory;
+            int fails = 0;
 
             var files = System.IO.Directory.GetFiles("Images/");
             files.Shuffle();
@@ -48,11 +49,29 @@ namespace DobbleCreator
 
             foreach(Card card in cards)
             {
+                bool flag = false;
+
+                foreach (int numb in card.Numbers)
+                    if (numb > maxSymbols)
+                        flag = true;
+
+                if (flag)
+                {
+                    fails++;
+                    continue;
+                }
+
+
                 CardView newCard = new CardView();
                 card.Numbers.Shuffle();
                 foreach (int numb in card.Numbers)
                     newCard.Images.Add(images[numb]);
                 Cards.Add(newCard);
+            }
+
+            if(fails != 0)
+            {
+                MessageBox.Show("Es konnten " + fails + " Karten nicht erstellt werden...", "Fehler 0x08");
             }
         }
     }

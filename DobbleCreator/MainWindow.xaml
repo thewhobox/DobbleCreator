@@ -26,15 +26,20 @@
         <StackPanel Orientation="Horizontal" Margin="5">
             <TextBox x:Name="InCount" Width="100" />
             <Button Content="Erstellen" Click="RunCreate" />
-            <Button x:Name="BtnTest" Content="Testen" Click="RunTest" IsEnabled="False" />
             <Button x:Name="BtnShow" Content="Alle Anzeigen" Click="RunShow" IsEnabled="False" />
             <Button x:Name="BtnShow2" Content="Zwei Anzeigen" Click="RunShow2" IsEnabled="False" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5">
             <TextBlock VerticalAlignment="Center" Margin="20 0 0 0">
-                <Run Text="Maximale Karten:" />
+                <Run Text="Karten:" />
+                <Run Text="{Binding RealCount}" />
+                <Run Text="/" />
                 <Run Text="{Binding MaxCount}" />
+            </TextBlock>
+            <TextBlock VerticalAlignment="Center" Margin="20 0 0 0">
+                <Run Text="Vorhandene Symbole:" />
+                <Run Text="{Binding MaxSymCount}" />
             </TextBlock>
         </StackPanel>
 

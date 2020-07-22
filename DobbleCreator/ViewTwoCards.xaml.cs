@@ -62,6 +62,8 @@ namespace DobbleCreator
 
         private void NeuMischen()
         {
+            Solution.Source = null;
+
             int card1 = rnd.Next(0, Cards.Count - 1);
             int card2 = card1;
 
@@ -72,6 +74,27 @@ namespace DobbleCreator
 
             Card1.DataContext = Cards[card1];
             Card2.DataContext = Cards[card2];
+        }
+
+        private void ShowSolution(object sender, RoutedEventArgs e)
+        {
+            CardView card1 = Card1.DataContext as CardView;
+            CardView card2 = Card2.DataContext as CardView;
+
+
+            for(int i = 0; i < card1.Images.Count; i++)
+            {
+                for (int x = 0; x < card2.Images.Count; x++)
+                {
+                    if(card1.Images[i] == card2.Images[x])
+                    {
+                        Solution.Source = card1.Images[i];
+                        return;
+                    }
+                }
+            }
+
+            MessageBox.Show("Es wurde keine Übereinstimmung gefunden...", "Fehler 0x07");
         }
     }
 }
