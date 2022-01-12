@@ -17,7 +17,11 @@
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding .}" Width="50" Height="50" />
+                            <Image Source="{Binding Source}" Width="50" Height="50" RenderTransformOrigin=".5,.5">
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="{Binding Rotation}" />
+                                </Image.RenderTransform>
+                            </Image>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

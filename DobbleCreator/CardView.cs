@@ -16,7 +16,7 @@ namespace DobbleCreator
         {
             get { return (int) Math.Ceiling(Math.Sqrt(Images.Count)); }
         }
-        public ObservableCollection<BitmapImage> Images { get; set; } = new ObservableCollection<BitmapImage>();
+        public ObservableCollection<ImageInfo> Images { get; set; } = new ObservableCollection<ImageInfo>();
         public event PropertyChangedEventHandler PropertyChanged;
 
         public CardView()

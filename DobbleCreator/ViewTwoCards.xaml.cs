@@ -49,7 +49,7 @@ namespace DobbleCreator
                 CardView newCard = new CardView();
                 card.Numbers.Shuffle();
                 foreach (int numb in card.Numbers)
-                    newCard.Images.Add(images[numb]);
+                    newCard.Images.Add(new ImageInfo(images[numb], rnd.Next(0,359), (rnd.Next(7, 12) / 10.0)));
                 Cards.Add(newCard);
             }
             NeuMischen();
@@ -65,7 +65,7 @@ namespace DobbleCreator
             Solution.Source = null;
 
             int card1 = rnd.Next(0, Cards.Count - 1);
-            int card2 = card1;
+            int card2 = rnd.Next(0, Cards.Count - 1);//card1;
 
             while(card1 == card2)
             {
@@ -86,9 +86,9 @@ namespace DobbleCreator
             {
                 for (int x = 0; x < card2.Images.Count; x++)
                 {
-                    if(card1.Images[i] == card2.Images[x])
+                    if(card1.Images[i].Source == card2.Images[x].Source)
                     {
-                        Solution.Source = card1.Images[i];
+                        Solution.Source = card1.Images[i].Source;
                         return;
                     }
                 }

@@ -47,9 +47,10 @@ namespace DobbleCreator
                 count++;
             }
 
+            Random rnd = new Random();
             foreach(Card card in cards)
             {
-                bool flag = false;
+                /*bool flag = false;
 
                 foreach (int numb in card.Numbers)
                     if (numb > maxSymbols)
@@ -60,12 +61,15 @@ namespace DobbleCreator
                     fails++;
                     continue;
                 }
-
+                */
 
                 CardView newCard = new CardView();
                 card.Numbers.Shuffle();
-                foreach (int numb in card.Numbers)
-                    newCard.Images.Add(images[numb]);
+                foreach (int numb in card.Numbers) {
+                    double scale = 1.0;
+                    int rotation = rnd.Next(0, 359);
+                    newCard.Images.Add(new ImageInfo(images[numb], rotation, scale));
+                }
                 Cards.Add(newCard);
             }
 

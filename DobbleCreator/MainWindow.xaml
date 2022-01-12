@@ -35,6 +35,8 @@
                 <Run Text="Karten:" />
                 <Run Text="{Binding RealCount}" />
                 <Run Text="/" />
+                <Run Text="{Binding MaybeCount}" />
+                <Run Text="/" />
                 <Run Text="{Binding MaxCount}" />
             </TextBlock>
             <TextBlock VerticalAlignment="Center" Margin="20 0 0 0">

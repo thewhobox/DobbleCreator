@@ -56,6 +56,13 @@ namespace DobbleCreator
             set { _realCount = value; Changed("RealCount"); }
         }
 
+        private int _maybeCount = 0;
+        public int MaybeCount
+        {
+            get { return _maybeCount; }
+            set { _maybeCount = value; Changed("MaybeCount"); }
+        }
+
         private int _maxSymCount = 0;
         public int MaxSymCount
         {
@@ -100,8 +107,9 @@ namespace DobbleCreator
             BtnShow.IsEnabled = false;
             BtnShow2.IsEnabled = false;
             Progress = 0;
-
-            MaxSymCount = System.IO.Directory.GetFiles("Images/").Count();
+            
+            string path = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Images");
+            MaxSymCount = System.IO.Directory.GetFiles(path).Count();
 
 
             bool isInt = int.TryParse(InCount.Text, out int count);
@@ -225,7 +233,7 @@ namespace DobbleCreator
                 }
 
 
-
+                int maybeNumber = Cards.Where(c => c.CanViewed).Count();
                 List<int> numbers = new List<int>();
 
                 foreach (Card card in Cards.Where(c => c.CanViewed))
@@ -243,6 +251,7 @@ namespace DobbleCreator
 
                 Dispatcher.Invoke(() =>
                 {
+                    MaybeCount = maybeNumber;
                     RealCount = Cards.Where(c => c.CanViewed).Count();
                     BtnShow.IsEnabled = true;
                     BtnShow2.IsEnabled = true;

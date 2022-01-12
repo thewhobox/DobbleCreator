@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DobbleCreator"
         mc:Ignorable="d"
-        Title="ViewTwoCards" Height="450" Width="800">
+        Title="ViewTwoCards" Height="450" Width="850">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -32,7 +32,14 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Image Source="{Binding .}" Width="50" Height="50" />
+                        <Image Source="{Binding Source}" Width="65" Height="65" RenderTransformOrigin=".5,.5">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="{Binding Rotation}" />
+                                    <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" />
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -47,7 +54,14 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Image Source="{Binding .}" Width="50" Height="50" />
+                        <Image Source="{Binding Source}" Width="65" Height="65" RenderTransformOrigin=".5,.5">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="{Binding Rotation}" />
+                                    <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" />
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
