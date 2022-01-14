@@ -98,6 +98,7 @@ namespace DobbleCreator
         public MainWindow()
         {
             InitializeComponent();
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             this.DataContext = this;
         }
 

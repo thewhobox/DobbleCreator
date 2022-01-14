@@ -8,18 +8,21 @@
         Title="ViewCards" Height="450" Width="800">
     <Window.Resources>
         <DataTemplate x:Key="CardTemplate">
-            <Border Margin="5" BorderBrush="LightGray" BorderThickness="1" Padding="5">
-                <ListBox ItemsSource="{Binding Images}" IsEnabled="False">
+            <Border Background="White" BorderBrush="LightGray" BorderThickness="0" Padding="10" Height="386" Width="259">
+                <ListBox ItemsSource="{Binding Images}" IsEnabled="False" BorderThickness="0">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid IsItemsHost="True" Columns="{Binding MaxColumns}" />
+                            <UniformGrid IsItemsHost="True" Rows="{Binding MaxColumns}" />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding Source}" Width="50" Height="50" RenderTransformOrigin=".5,.5">
+                            <Image Source="{Binding Source}" Width="65" Height="65" RenderTransformOrigin=".5,.5">
                                 <Image.RenderTransform>
+                                <TransformGroup>
                                     <RotateTransform Angle="{Binding Rotation}" />
+                                    <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" />
+                                </TransformGroup>
                                 </Image.RenderTransform>
                             </Image>
                         </DataTemplate>
@@ -29,13 +32,30 @@
         </DataTemplate>
     </Window.Resources>
 
-    <ListBox ItemsSource="{Binding Cards}" ItemTemplate="{StaticResource CardTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-        <ListBox.ItemsPanel>
-            <ItemsPanelTemplate>
-                <WrapPanel IsItemsHost="True" />
-            </ItemsPanelTemplate>
-        </ListBox.ItemsPanel>
-    </ListBox>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="15" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <Button Content="Exportieren" Click="DoExport" />
+        <ProgressBar Grid.Row="1" x:Name="ProgExport" />
 
-    <!--<Image Source="Images/icons8-accordion-100.png" />-->
+        <ListBox Grid.Row="2" x:Name="cardList" ItemsSource="{Binding Cards}" ItemTemplate="{StaticResource CardTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+    </Grid>
 </Window>
