@@ -93,7 +93,7 @@ namespace DobbleCreator
                 VisualBrush sourceBrush = new VisualBrush(cardList.ItemContainerGenerator.ContainerFromIndex(i) as ListBoxItem);
                 DrawingVisual drawingVisual = new DrawingVisual();
                 DrawingContext drawingContext = drawingVisual.RenderOpen();
-                drawingContext.DrawRectangle(sourceBrush, null, new Rect(new Point(0, 0), new Point(446, 666446*1,492)));
+                drawingContext.DrawRectangle(sourceBrush, null, new Rect(new Point(0, 0), new Point(445, 665)));
                 drawingContext.Close();
 
                 renderTarget.Render(drawingVisual);
