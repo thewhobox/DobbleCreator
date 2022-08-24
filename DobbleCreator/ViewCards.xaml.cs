@@ -58,7 +58,7 @@ namespace DobbleCreator
                 CardView newCard = new CardView();
                 card.Numbers.Shuffle();
                 foreach (int numb in card.Numbers) {
-                    double scale = rnd.Next(7,12) / 10.0;
+                    double scale = rnd.Next(6,12) / 10.0;
                     int rotation = rnd.Next(0, 359);
                     newCard.Images.Add(new ImageInfo(images[numb], rotation, scale));
                 }
@@ -72,7 +72,7 @@ namespace DobbleCreator
         }
 
         private async void DoExport(object sender, RoutedEventArgs e) {
-            ProgExport.Maximum = Cards.Count();
+            ProgExport.Maximum = 220; //Cards.Count();
             ProgExport.Value = 0;
 
             PdfDocument document = new PdfDocument();
@@ -81,6 +81,7 @@ namespace DobbleCreator
             if(!System.IO.Directory.Exists("temp")) {
                 System.IO.Directory.CreateDirectory("temp");
             }
+            XImage image;
 
             for(int i = 0; i < Cards.Count; i++) {
                 if(i == 110) break;
@@ -101,7 +102,7 @@ namespace DobbleCreator
                 byte[] imageArray;
                 using(FileStream stream = new FileStream($"temp/{i}.jpg", FileMode.OpenOrCreate)){
                     JpegBitmapEncoder jpgEncoder = new JpegBitmapEncoder();
-                    jpgEncoder.QualityLevel = 100;
+                    jpgEncoder.QualityLevel = 90;
                     jpgEncoder.Frames.Add(BitmapFrame.Create(renderTarget));
                     using (MemoryStream outputStream = new MemoryStream())
                     {
@@ -116,19 +117,32 @@ namespace DobbleCreator
                 }
 
                 XGraphics gfx = XGraphics.FromPdfPage(page);
-                XImage image = XImage.FromFile($"temp/{i}.jpg");
-                gfx.DrawImage(image, 0, 0, 180, 269);
+                image = XImage.FromFile($"temp/{i}.jpg");
+                gfx.DrawImage(image, 1, 1, 182, 271);
 
 
-                ProgExport.Value = i+1;
+                ProgExport.Value++;
                 await System.Threading.Tasks.Task.Delay(10);
             }
+            document.Save("Vorderseite.pdf");
 
+            document = new PdfDocument();
+            document.Info.Title = "Created with PDFsharp";
+            
+            image = XImage.FromFile("../../../Logo/Logo.jpg");
+            for(int i = 0; i < 110; i++)
+            {
+                PdfPage page = document.AddPage();
+                page.Width = "65mm"; //223;
+                page.Height = "97mm"; //344;
 
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                gfx.DrawImage(image, 0, 0, 184, 275);//344);
 
-
-
-            document.Save("test.pdf");
+                ProgExport.Value++;
+                await System.Threading.Tasks.Task.Delay(10);
+            }
+            document.Save("Rückseite.pdf");
         }
     }
 }
